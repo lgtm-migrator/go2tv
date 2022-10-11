@@ -19,14 +19,13 @@ func TestGetFriendlyName(t *testing.T) {
 			FriendlyName: fn,
 		}
 
-		dataXML, _ := xml.Marshal(data)
-
 		w.Header().Set("Content-Type", "text/xml")
+
 		if r.Header.Get("Connection") == "close" {
 			w.Header().Set("Connection", "close")
 		}
 
-		_, _ = w.Write(dataXML)
+		_ = xml.NewEncoder(w).Encode(&data)
 	}))
 
 	defer testServer.Close()
